@@ -1,7 +1,7 @@
 https://www.google.com/search?q=flowers
 https://www.facebook.com/cnn
 http://www.youtube.com/
-{"url" = "https://www.youtube.com/watch?v=9bZkp7q19f0", "scroll" = false, "wait" = 300}
+{"url": "https://www.youtube.com/watch?v=9bZkp7q19f0", "scroll": false, "wait": 300}
 https://www.yahoo.com/
 http://www.baidu.com/s?wd=%E8%8A%B1%E5%8D%89
 http://en.wikipedia.org/wiki/Google
