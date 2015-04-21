@@ -60,7 +60,7 @@ function TestSaveState($id, $test) {
   $path = TestGetFilePath($id, true);
   if ($path !== false) {
     $test['last_update'] = time();
-    if (file_put_contents("$path.state", json_encode($test)) === false)
+    if (file_put_contents("$path.state", json_encode($test)) !== false)
       $ret = true;
   }
   return $ret;
