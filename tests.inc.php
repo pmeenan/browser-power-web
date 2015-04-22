@@ -110,7 +110,7 @@ function TestParseTask($line) {
   if (!isset($task['scroll']))
     $task['scroll'] = true;
   if (!isset($task['wait']))
-    $task['wait'] = 60;
+    $task['wait'] = 20;
   return $task;
 }
 ?>
