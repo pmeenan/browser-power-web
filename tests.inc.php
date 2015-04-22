@@ -6,7 +6,9 @@ const TEST_ACTION = 'ACTION';
 const TEST_DATA = 'ACTION_DATA';
 
 function TestCreate($test) {
-  $id = date('ymd') . '-' . md5(uniqid(rand(), true));
+  $browser = isset($test['Browser']) ? str_replace(" ", "", $test['Browser']) : 'UnknownBrowser';
+  $os = isset($test['Platform']) ? str_replace(" ", "", $test['Platform']) : 'UnknownOS';
+  $id = date('ymd') . "-$os-$browser-" . md5(uniqid(rand(), true));
   $path = TestGetFilePath($id, true);
   if (TestLog($id, TEST_STARTED, $test)) {
     if (TestSaveState($id, $test) === false)
@@ -29,12 +31,12 @@ function TestLog($id, $event, $info) {
 
 function TestGetFilePath($id, $create) {
   $path = false;
-  if (preg_match('/^(?<year>[0-9][0-9])(?<month>[0-9][0-9])(?<day>[0-9][0-9])-(?<hash>[0-9a-z]+)$/i', $id, $matches)) {
-    $path = __DIR__ . "/results/{$matches['year']}/{$matches['month']}/{$matches['day']}";
+  if (preg_match('/^(?<year>[0-9][0-9])(?<month>[0-9][0-9])(?<day>[0-9][0-9])-(?<os>[^\-]+)-(?<browser>[^\-]+)-(?<hash>[0-9a-z]+)$/i', $id, $matches)) {
+    $path = __DIR__ . "/results/{$matches['year']}-{$matches['month']}";
     if ($create && !is_dir($path))
       mkdir($path, 0777, true);
     if (is_dir($path)) {
-      $path .= "/{$matches['hash']}.log";
+      $path .= "/$id.log";
       if (!$create && !is_file($path) && !is_file("$path.gz"))
         $path = false;
     } else {
@@ -47,10 +49,13 @@ function TestGetFilePath($id, $create) {
 function TestGetState($id) {
   $state = false;
   $path = TestGetFilePath($id, false);
-  if ($path != false && is_file("$path.state")) {
-    $state = json_decode(file_get_contents("$path.state"), true);
-    if (!isset($state))
-      $state = false;
+  if ($path != false) {
+    $path = __DIR__ . "/results/$id.state";
+    if (is_file($path)) {
+      $state = json_decode(file_get_contents($path), true);
+      if (!isset($state))
+        $state = false;
+    }
   }
   return $state;
 }
@@ -60,7 +65,10 @@ function TestSaveState($id, $test) {
   $path = TestGetFilePath($id, true);
   if ($path !== false) {
     $test['last_update'] = time();
-    if (file_put_contents("$path.state", json_encode($test)) !== false)
+    if (!isset($test['first_update']))
+      $test['first_update'] = $test['last_update'];
+    $test['update_count'] = isset($test['update_count']) ? $test['update_count'] + 1 : 1;
+    if (file_put_contents(__DIR__ . "/results/$id.state", json_encode($test)) !== false)
       $ret = true;
   }
   return $ret;
