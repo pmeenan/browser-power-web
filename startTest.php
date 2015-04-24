@@ -8,6 +8,9 @@ $test = array('UA' => $_SERVER['HTTP_USER_AGENT'],
                   'Platform' => $browser->getPlatform());
 if (isset($_REQUEST['label']))
   $test['label'] = $_REQUEST['label'];
+$test['list'] = 'no video';
+if (isset($_REQUEST['list']) && preg_match('/^[a-zA_Z0-9\- ]+$/', $_REQUEST['list']))
+  $test['list'] = $_REQUEST['list'];
 $id = TestCreate($test);
 if ($id !== false) {
   $ret = array('result' => 200, 'id' => $id);

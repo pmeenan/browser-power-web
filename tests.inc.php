@@ -77,7 +77,7 @@ function TestSaveState($id, $test) {
 function TestGetNextTask(&$test) {
   $task = false;
   $step = isset($test['last_step']) ? $test['last_step'] + 1 : 0;
-  $tasks = TestLoadTasks();
+  $tasks = TestLoadTasks($test);
   if (is_array($tasks) && count($tasks)) {
     $step = $step % count($tasks);
     $task = $tasks[$step];
@@ -86,9 +86,10 @@ function TestGetNextTask(&$test) {
   return $task;
 }
 
-function TestLoadTasks() {
+function TestLoadTasks($test) {
   $tasks = array();
-  $lines = file(__DIR__ . '/tests/default.txt');
+  $list = isset($test['list']) ? $test['list'] : 'default';
+  $lines = file(__DIR__ . "/tests/{$test['list']}.txt");
   foreach ($lines as $line) {
     $task = TestParseTask($line);
     if (is_array($task)) {
