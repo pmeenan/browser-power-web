@@ -1,0 +1,10 @@
+{"url": "https://www.youtube.com/watch?v=9bZkp7q19f0", "scroll": false, "wait": 300}
+{"url": "https://www.youtube.com/watch?v=v1DL3T-TGfA", "scroll": false, "wait": 300}
+{"url": "https://www.youtube.com/watch?v=VdLf4fihP78", "scroll": false, "wait": 1020}
+{"url": "https://www.youtube.com/watch?v=58Pspqx0XGs", "scroll": false, "wait": 120}
+{"url": "https://www.youtube.com/watch?v=E8sxwK2pJI4", "scroll": false, "wait": 150}
+{"url": "https://www.youtube.com/watch?v=2VTxYQL2SbA", "scroll": false, "wait": 300}
+{"url": "https://www.youtube.com/watch?v=5WI6MHH7Y7I", "scroll": false, "wait": 300}
+{"url": "https://www.youtube.com/watch?v=ngElkyQ6Rhs", "scroll": false, "wait": 120}
+{"url": "https://www.youtube.com/watch?v=TQK0d72Jom8", "scroll": false, "wait": 300}
+{"url": "https://www.youtube.com/watch?v=MNpkSyryQz4", "scroll": false, "wait": 720}
