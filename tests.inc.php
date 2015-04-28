@@ -3,7 +3,7 @@ require_once('util.inc.php');
 
 const TEST_STARTED = 'STARTED';
 const TEST_ACTION = 'ACTION';
-const TEST_DATA = 'ACTION_DATA';
+const TEST_DATA = 'DATA';
 
 function TestCreate($test) {
   $browser = isset($test['Browser']) ? str_replace(" ", "", $test['Browser']) : 'UnknownBrowser';
@@ -24,6 +24,7 @@ function TestLog($id, $event, $info) {
   $ret = false;
   $logFile = TestGetFilePath($id, $event == TEST_STARTED);
   if ($logFile !== false) {
+    $info['log'] = $event;
     $ret = error_log(gmdate('Y/m/d H:i:s - ') . time() . ' - ' . json_encode($info) . "\n", 3, $logFile);
   }
   return $ret;
