@@ -9,7 +9,8 @@ const TEST_PING = 'PING';
 function TestCreate($test) {
   $browser = isset($test['Browser']) ? str_replace(" ", "", $test['Browser']) : 'UnknownBrowser';
   $os = isset($test['Platform']) ? str_replace(" ", "", $test['Platform']) : 'UnknownOS';
-  $id = date('ymd') . "-$os-$browser-" . md5(uniqid(rand(), true));
+  $name = isset($test['list']) ? str_replace(' ', '', $test['list']) : 'unknown';
+  $id = date('ymd') . "-$name-$os-$browser-" . md5(uniqid(rand(), true));
   $path = TestGetFilePath($id, true);
   if (TestLog($id, TEST_STARTED, $test)) {
     if (TestSaveState($id, $test) === false)
