@@ -4,6 +4,7 @@ require_once('util.inc.php');
 const TEST_STARTED = 'STARTED';
 const TEST_ACTION = 'ACTION';
 const TEST_DATA = 'DATA';
+const TEST_PING = 'PING';
 
 function TestCreate($test) {
   $browser = isset($test['Browser']) ? str_replace(" ", "", $test['Browser']) : 'UnknownBrowser';
