@@ -1,0 +1,6 @@
+{"url": "https://test.patrickmeenan.com/video/play.php?video=720p24", "scroll": false, "wait": 480}
+{"url": "https://test.patrickmeenan.com/video/play.php?video=720p30", "scroll": false, "wait": 480}
+{"url": "https://test.patrickmeenan.com/video/play.php?video=720p60", "scroll": false, "wait": 480}
+{"url": "https://test.patrickmeenan.com/video/play.php?video=1080p24", "scroll": false, "wait": 480}
+{"url": "https://test.patrickmeenan.com/video/play.php?video=1080p30", "scroll": false, "wait": 480}
+{"url": "https://test.patrickmeenan.com/video/play.php?video=1080p60", "scroll": false, "wait": 480}
