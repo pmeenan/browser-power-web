@@ -34,7 +34,7 @@ function TestLog($id, $event, $info) {
 
 function TestGetFilePath($id, $create) {
   $path = false;
-  if (preg_match('/^(?<year>[0-9][0-9])(?<month>[0-9][0-9])(?<day>[0-9][0-9])-(?<os>[^\-]+)-(?<browser>[^\-]+)-(?<hash>[0-9a-z]+)$/i', $id, $matches)) {
+  if (preg_match('/^(?<year>[0-9][0-9])(?<month>[0-9][0-9])(?<day>[0-9][0-9])-(?<list>[^\-]*)-(?<os>[^\-]+)-(?<browser>[^\-]+)-(?<hash>[0-9a-z]+)$/i', $id, $matches)) {
     $path = __DIR__ . "/results/{$matches['year']}-{$matches['month']}";
     if ($create && !is_dir($path))
       mkdir($path, 0777, true);
