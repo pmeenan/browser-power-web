@@ -34,7 +34,7 @@ function TestLog($id, $event, $info) {
 
 function TestGetFilePath($id, $create) {
   $path = false;
-  if (preg_match('/^(?<year>[0-9][0-9])(?<month>[0-9][0-9])(?<day>[0-9][0-9])-(?<list>[^\-]*)-(?<os>[^\-]+)-(?<browser>[^\-]+)-(?<hash>[0-9a-z]+)$/i', $id, $matches)) {
+  if (preg_match('/^(?<year>[0-9][0-9])(?<month>[0-9][0-9])(?<day>[0-9][0-9])(-(?<list>[^\-]*))?-(?<os>[^\-]+)-(?<browser>[^\-]+)-(?<hash>[0-9a-z]+)$/i', $id, $matches)) {
     $path = __DIR__ . "/results/{$matches['year']}-{$matches['month']}";
     if ($create && !is_dir($path))
       mkdir($path, 0777, true);
@@ -116,5 +116,44 @@ function TestParseTask($line) {
   if (!isset($task['wait']))
     $task['wait'] = 20;
   return $task;
+}
+
+function TestGetData($file, $saveCache = false) {
+  if (is_file("$file.cache")) {
+    $test = json_decode(file_get_contents("$file.cache"), true);
+  } else {
+    $test = array('file' => $file, 'actions' => array(), 'data' => array());
+    $lines = file($file);
+    foreach($lines as $line) {
+      if (preg_match('/^[^-]+ - (?<time>[0-9]+) - (?<json>{.*})$/', trim($line), $matches)) {
+        $time = intval($matches['time']);
+        $data = json_decode($matches['json'], true);
+        if (isset($data['log']))
+          $type = $data['log'];
+        elseif (isset($data['UA']))
+          $type = TEST_STARTED;
+        else
+          $type = TEST_ACTION;
+        if (!isset($test['started']) || $time < $test['started'])
+          $test['started'] = $time;
+        if (!isset($test['finished']) || $time > $test['finished'])
+          $test['finished'] = $time;
+          
+        if ($type == TEST_STARTED) {
+          $test['platform'] = $data['Platform'];
+          $test['browser'] = $data['Browser'];
+          $test['version'] = $data['Browser Version'];
+          $test['list'] = isset($data['list']) ? $data['list'] : 'default';
+        } elseif ($type == TEST_ACTION) {
+          $test['actions'][] = $data;
+        } elseif ($type == TEST_DATA) {
+          $test['data'][] = $data;
+        }
+      }
+    }
+    if ($saveCache)
+      file_put_contents("$file.cache", json_encode($test));
+  }
+  return $test;
 }
 ?>
