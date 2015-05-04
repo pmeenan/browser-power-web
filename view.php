@@ -56,27 +56,27 @@ if (count($tests) == 2) {
       // calculate average deltas for each URL
       $delta = array();
       foreach ($urls as $url) {
-        $test_averages = array();
+        $medians = array();
         foreach($tests as $index => $test) {
           if (isset($test['urls'][$url][$action])) {
-            $count = count($test['urls'][$url][$action]);
-            if ($count > 0) {
-              $total = 0;
+            if (count($test['urls'][$url][$action])) {
+              $values = array();
               foreach ($test['urls'][$url][$action] as $data)
-                $total += $data[$metric];
-              $test_averages[$index] = (double)$total / (double)$count;
+                $values[] = $data[$metric];
+              sort($values);
+              $medians[$index] = $values[floor(count($values) / 2)];
             }
           }
         }
-        if (count($test_averages) == 2)
-          $delta[$url] = $test_averages[1] - $test_averages[0];
+        if (count($medians) == 2)
+          $delta[$url] = $medians[1] - $medians[0];
       }
       if (count($delta)) {
-        echo "<h2 id=\"section_$div_count\">$action - $description</h2>";
+        $label = "Median $description during $action for $config relative to $base";
+        echo "<h2 id=\"section_$div_count\">$label</h2>";
         $div_count++;
         $div = "chart_{$a}_{$metric}_$div_count";
         echo "<div class=\"summary-chart\" id=\"$div\"></div>";
-        $label = "$description during $action for $config relative to $base";
         $chart = array('div' => $div, 'label' => $label, 'data' => array());
         $chart['data'][] = array("URL", "$description delta");
         foreach($delta as $url => $value) {
